@@ -4,7 +4,7 @@ import argparse
 import sys
 
 def main():
-    parser = argparse.ArgumentParser(description="Extract a subset of sequences from a FASTA (.fna, .faa, .fasta) or GenBank file (.gbk, .genbank).")
+    parser = argparse.ArgumentParser(description="Extract a subset of sequences from a FASTA (.fa, .fna, .faa, .fasta) or GenBank file (.gbk, .genbank).")
     parser.add_argument("input_file", help="Input FASTA or GenBank file")
     parser.add_argument("output_file", help="Output file to store extracted sequences")
     parser.add_argument("wanted_ids", help="File containing a list of wanted sequence IDs")
@@ -12,12 +12,12 @@ def main():
     args = parser.parse_args()
     
     # Check the file extension to determine the format
-    if args.input_file.endswith((".fna", ".faa", ".fasta")):
+    if args.input_file.endswith((".fa",".fna", ".faa", ".fasta")):
         input_format = "fasta"
     elif args.input_file.endswith((".gbk", ".genbank")):
         input_format = "genbank"
     else:
-        print("Unsupported file format. Please provide a FASTA (.fna, .faa, .fasta) or a GenBank file (.gbk, .genbank).")
+        print("Unsupported file format. Please provide a FASTA (.fa, .fna, .faa, .fasta) or a GenBank file (.gbk, .genbank).")
         sys.exit(1)  # Exit with an error code
 
     # Load the list of wanted sequence IDs
