@@ -2,13 +2,19 @@ import argparse
 
 def main():
     parser = argparse.ArgumentParser(description="Find items in a long list that are not in a subset.")
-    parser.add_argument("--long-list", nargs="+", type=int, required=True, help="The long list of items.")
-    parser.add_argument("--subset", nargs="+", type=int, required=True, help="The subset of items.")
+    parser.add_argument("--long-list-file", type=str, required=True, help="Input file containing the long list items, one item per line.")
+    parser.add_argument("--subset-file", type=str, required=True, help="Input file containing the subset items, one item per line.")
 
     args = parser.parse_args()
     
-    subset_set = set(args.subset)
-    not_in_subset = [item for item in args.long_list if item not in subset_set]
+    with open(args.long_list_file, "r") as long_list_file:
+        long_list = [int(line.strip()) for line in long_list_file]
+
+    with open(args.subset_file, "r") as subset_file:
+        subset = [int(line.strip()) for line in subset_file]
+    
+    subset_set = set(subset)
+    not_in_subset = [item for item in long_list if item not in subset_set]
     
     print(not_in_subset)
 
