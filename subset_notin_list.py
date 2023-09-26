@@ -9,17 +9,17 @@ def main():
     args = parser.parse_args()
     
     with open(args.long_list_file, "r") as long_list_file:
-        long_list = [int(line.strip()) for line in long_list_file]
+        long_list = [line.strip() for line in long_list_file]
 
     with open(args.subset_file, "r") as subset_file:
-        subset = [int(line.strip()) for line in subset_file]
+        subset = [line.strip() for line in subset_file]
     
     subset_set = set(subset)
     not_in_subset = [item for item in long_list if item not in subset_set]
     
     with open(args.output_file, "w") as output_file:
         for item in not_in_subset:
-            output_file.write(str(item) + "\n")
+            output_file.write(item + "\n")
 
 if __name__ == "__main__":
     main()
