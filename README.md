@@ -6,4 +6,4 @@ Various python scripts to deal with fasta-files and a like.
 * split_fasta.py: split multi-fasta into smaller number of subset files.
 * translateKraken2.py: get full taxonomic lineage for NCBI tax IDs in Kraken2 standard output (need taxonkit.sif; script modified from https://raw.githubusercontent.com/microbialman/MetaSequencing/master/workflow/scripts/translateKraken2.py)
 * merge_multifasta.py: combine several multi-fasta into one file.
-* reduce_identical_blast.py: given a blast_result with 100% identity hits and duplicate (pairs) removed, create a reduced set of unique sequences and map old Ids
+* reduce_identical_blast.py: given a blast_result with 100% identity hits kept and self-blasts removed, create a reduced set of unique sequences and map old Ids
