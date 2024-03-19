@@ -23,31 +23,39 @@ def create_reduced_set_and_mapping(headers, sequences, identical_seqs, blast_res
     reduced_sequences = []
     mapping = {}
     counter = 1
-    mapped_sequences = set()
-    
+    identical_mapping = {}
+
     # Create a mapping for identical sequences
     for line in open(blast_results, 'r'):
         fields = line.strip().split('\t')
         if fields[0] in identical_seqs and fields[1] in identical_seqs:
-            mapping[fields[0]] = f'ESV_SSU_{counter}'
-            mapping[fields[1]] = f'ESV_SSU_{counter}'
-            counter += 1
-    
+            if fields[0] not in identical_mapping and fields[1] not in identical_mapping:
+                identical_mapping[fields[0]] = f'ESV_SSU_{counter}'
+                identical_mapping[fields[1]] = f'ESV_SSU_{counter}'
+                counter += 1
+            elif fields[0] in identical_mapping and fields[1] not in identical_mapping:
+                identical_mapping[fields[1]] = identical_mapping.get(fields[0])
+            elif fields[1] in identical_mapping and fields[0] not in identical_mapping:
+                identical_mapping[fields[0]] = identical_mapping.get(fields[1])
+
+    ## Print the contents of identical_mapping for debugging
+    #print("Identical Mapping:")
+    #print({k: identical_mapping[k] for k in list(identical_mapping)[:5]})
+
     # Iterate through headers and sequences
     for header, sequence in zip(headers, sequences):
         if header not in identical_seqs:
-            if header not in mapping:
-                reduced_headers.append(f'ESV_SSU_{counter}')
+            reduced_headers.append(f'ESV_SSU_{counter}')
+            reduced_sequences.append(sequence)
+            mapping[header] = f'ESV_SSU_{counter}'
+            counter += 1
+        elif header in identical_seqs and identical_mapping.get(header) not in reduced_headers:
+                mapping[header] = identical_mapping.get(header)
+                reduced_headers.append(identical_mapping.get(header))
                 reduced_sequences.append(sequence)
-                mapping[header] = f'ESV_SSU_{counter}'
-                counter += 1
-        elif header in identical_seqs:
-            if header not in mapped_sequences:
-                mapped_sequences.add(header)
-                mapping[header] = f'ESV_SSU_{counter}'
-                counter += 1
-            else:
-                mapping[header] = mapping[fields[0]]  # Map to the same ESV_SSU_{counter}
+        elif header in identical_seqs and identical_mapping.get(header) in reduced_headers:
+                mapping[header] = identical_mapping.get(header)
+
     return reduced_headers, reduced_sequences, mapping
 
 # Function to write reduced set of sequences and mapping to files
@@ -71,5 +79,8 @@ def main():
     reduced_headers, reduced_sequences, mapping = create_reduced_set_and_mapping(headers, sequences, identical_seqs, args.blast_results)
     write_output(reduced_headers, reduced_sequences, mapping, args.reduced_fasta, args.mapping_file)
 
+    ## Print for troubleshooting
+    #print(list(identical_seqs)[:5]) 
+    
 if __name__ == "__main__":
     main()
