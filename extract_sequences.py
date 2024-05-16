@@ -8,9 +8,9 @@ def main():
     parser.add_argument("input_file", help="Input FASTA or GenBank file")
     parser.add_argument("output_file", help="Output file to store extracted sequences")
     parser.add_argument("wanted_ids", help="File containing a list of wanted sequence IDs")
-    
+
     args = parser.parse_args()
-    
+
     # Check the file extension to determine the format
     if args.input_file.endswith((".fa",".fna", ".faa", ".fasta")):
         input_format = "fasta"
@@ -24,11 +24,13 @@ def main():
     with open(args.wanted_ids, "r") as ids_file:
         wanted_ids = [line.strip() for line in ids_file]
 
-    # Extract sequences with matching IDs
+    # Extract sequences with matching IDs (full or partial matches)
     extracted_sequences = []
     with open(args.input_file, "r") as input_handle:
         for record in SeqIO.parse(input_handle, input_format):
-            if record.id in wanted_ids:
+            record_id_parts = record.id.split()  # Split the ID by spaces
+            record_id_first_part = record_id_parts[0]  # Take only the first part
+            if any(wanted_id in record_id_first_part for wanted_id in wanted_ids):
                 extracted_sequences.append(record)
 
     # Write the extracted sequences to the output file
