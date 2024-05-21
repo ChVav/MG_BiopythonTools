@@ -20,24 +20,23 @@ def main():
         print("Unsupported file format. Please provide a FASTA (.fa, .fna, .faa, .fasta) or a GenBank file (.gbk, .genbank).")
         sys.exit(1)  # Exit with an error code
 
-    # Load the list of wanted sequence IDs
+    # Load the list of wanted sequence IDs into a set for fast look-up
     with open(args.wanted_ids, "r") as ids_file:
-        wanted_ids = [line.strip() for line in ids_file]
+        wanted_ids = set(line.strip() for line in ids_file)
 
-    # Extract sequences with matching IDs (full or partial matches)
-    extracted_sequences = []
-    with open(args.input_file, "r") as input_handle:
-        for record in SeqIO.parse(input_handle, input_format):
-            record_id_parts = record.id.split()  # Split the ID by spaces
-            record_id_first_part = record_id_parts[0]  # Take only the first part
-            if any(wanted_id in record_id_first_part for wanted_id in wanted_ids):
-                extracted_sequences.append(record)
+    # Create an index for the input file
+    record_index = SeqIO.index(args.input_file, input_format)
 
     # Write the extracted sequences to the output file
     with open(args.output_file, "w") as output_handle:
-        SeqIO.write(extracted_sequences, output_handle, input_format)
+        count = 0
+        for record_id in record_index:
+            record_id_first_part = record_id.split()[0]  # Take only the first part of the ID
+            if record_id_first_part in wanted_ids:
+                SeqIO.write(record_index[record_id], output_handle, input_format)
+                count += 1
 
-    print(f"Extracted {len(extracted_sequences)} sequences to {args.output_file}")
+    print(f"Extracted {count} sequences to {args.output_file}")
 
 if __name__ == "__main__":
     main()
