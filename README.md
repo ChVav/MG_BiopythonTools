@@ -11,3 +11,4 @@ Various python scripts to deal with fasta-files and a like.
 * get_hits_hmmer3.py: given hmmsearch (hmmer3) output, filter Sequence ids for selected e-value threshold
 * parse_gbk_df.py: given a folder with .gbk files, create a tidy df (.csv) with sequences and annotated features
 * calc_seq_lengthy.py: given a multi-fasta file (.fna or .fasta), calculate sequence length for each DNA molecule
+* replace_fasta_headers.py: given a multi-fasta file and a map of old and new ids, rename the fasta headers
