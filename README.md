@@ -12,3 +12,4 @@ Various python scripts to deal with fasta-files and a like.
 * parse_gbk_df.py: given a folder with .gbk files, create a tidy df (.csv) with sequences and annotated features
 * calc_seq_lengthy.py: given a multi-fasta file (.fna or .fasta), calculate sequence length for each DNA molecule
 * replace_fasta_headers.py: given a multi-fasta file and a map of old and new ids, rename the fasta headers
+* parse_gbk_cds2fna.py: given a gbk file, extract the nucleotide sequences for all CDS into a fasta file using /locus_tag as headers
