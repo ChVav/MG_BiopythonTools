@@ -1,7 +1,5 @@
 Various python scripts to deal with fasta-files and a like.
 
-Sure! Here are the Python scripts listed in alphabetical order:
-
 - **blast_16S_besthit_api.py**: blastn and get taxonomy for besthit. uses API to connect to NCBI, works for only handful seqs at a time.
 - **calc_seq_lengthy.py**: given a multi-fasta file (.fna or .fasta), calculate sequence length for each DNA molecule.
 - **extract_sequences.py**: subset a multi-fasta or genbank file given a list of ids. Spaces may be present in fasta header, but then the list of ids should match everything before.
