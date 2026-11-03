@@ -3,6 +3,7 @@ Various python scripts to deal with fasta-files and a like.
 - **blast_16S_besthit_api.py**: blastn and get taxonomy for besthit. uses API to connect to NCBI, works for only handful seqs at a time.
 - **calc_seq_lengthy.py**: given a multi-fasta file (.fna or .fasta), calculate sequence length for each DNA molecule.
 - **extract_sequences.py**: subset a multi-fasta or genbank file given a list of ids. Spaces may be present in fasta header, but then the list of ids should match everything before.
+- **extract_species_proteomes.py**: subset a multi-fasta with CDS given a list of species IDs into species.faa files. (species ID untill "." in multifasta)
 - **get_hits_hmmer3.py**: given hmmsearch (hmmer3) output, filter Sequence ids for selected e-value threshold.
 - **lenfilter_fasta.py**: filter a (multi-)fasta file based on sequence length.
 - **merge_multifasta.py**: combine several multi-fasta into one file.
