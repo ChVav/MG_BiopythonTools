@@ -9,6 +9,7 @@ Various python scripts to deal with fasta-files and a like.
 - **merge_multifasta.py**: combine several multi-fasta into one file.
 - **parse_gbk_cds2fna.py**: given a gbk file, extract the nucleotide sequences for all CDS into a fasta file using /locus_tag as headers.
 - **parse_gbk_df.py**: given a folder with .gbk files, create a tidy df (.csv) with sequences and annotated features.
+- **preprocess-gbk.py**: preprocesses extracted GenBank files by detecting malformed or split feature qualifiers in the FEATURES section and attempting to join them into a single line. It writes a corrected copy of each input file, prefixed with fixed_, so that the files can be parsed more reliably by Biopython.
 - **reduce_identical_blast.py**: given a blast_result with 100% identity hits kept and self-blasts removed, create a reduced set of unique sequences and map old Ids.
 - **replace_fasta_headers.py**: given a multi-fasta file and a map of old and new ids, rename the fasta headers.
 - **split_fasta.py**: split multi-fasta into smaller number of subset files.
