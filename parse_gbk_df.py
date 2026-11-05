@@ -1,9 +1,11 @@
 import os
+import sys
 import pandas as pd
 from Bio import SeqIO
 
-# Directory containing .gbk files
-gbk_dir = "test_contigs_gbk"
+# Input/output paths
+gbk_dir = sys.argv[1]
+output_file = sys.argv[2]
 
 # Initialize an empty list to collect data for the DataFrame
 data = []
@@ -36,6 +38,7 @@ for gbk_file in os.listdir(gbk_dir):
 df = pd.DataFrame(data, columns=["seq_id", "feat_id", "type", "start", "end", "annot"])
 
 # Save the DataFrame as a CSV file
-df.to_csv("parsed_gbk_data.csv", index=False)
+df.to_csv(output_file, index=False)
 
-print("Data parsing complete and saved as 'parsed_gbk_data.csv'.")
+print(f"Data parsing complete: {output_file}")
+print(f"Parsed {len(df)} CDS features from {gbk_dir}")
